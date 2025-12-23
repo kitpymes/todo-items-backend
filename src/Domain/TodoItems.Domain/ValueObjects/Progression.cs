@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TodoItems.Domain.ValueObjects;
 
-namespace TodoItems.Domain.ValueObjects;
-
-public sealed class Progression
+public sealed class Progression : IEquatable<Progression>
 {
-    public DateTime Date { get; }
-    public decimal Percent { get; }
+    public DateTime Date { get; private set; }
+    public decimal Percent { get; private set; }
+
+    // Constructor requerido por EF Core
+    private Progression() { }
 
     public Progression(DateTime date, decimal percent)
     {
@@ -19,4 +16,22 @@ public sealed class Progression
         Date = date;
         Percent = percent;
     }
+
+    public bool Equals(Progression? other)
+    {
+        if (ReferenceEquals(this, other)) return true;
+        if (other is null) return false;
+        return Date == other.Date && Percent == other.Percent;
+    }
+
+    public override bool Equals(object? obj) => Equals(obj as Progression);
+
+    public override int GetHashCode() => HashCode.Combine(Date, Percent);
+
+    public static bool operator ==(Progression? left, Progression? right) =>
+        ReferenceEquals(left, right) || (left is not null && left.Equals(right));
+
+    public static bool operator !=(Progression? left, Progression? right) => !(left == right);
+
+    public override string ToString() => $"{Date:O} - {Percent}%";
 }
