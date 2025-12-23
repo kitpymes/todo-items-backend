@@ -1,4 +1,6 @@
-﻿namespace TodoItems.Domain.ValueObjects;
+﻿using System.Globalization;
+
+namespace TodoItems.Domain.ValueObjects;
 
 public sealed class Progression : IEquatable<Progression>
 {
@@ -33,5 +35,5 @@ public sealed class Progression : IEquatable<Progression>
 
     public static bool operator !=(Progression? left, Progression? right) => !(left == right);
 
-    public override string ToString() => $"{Date:O} - {Percent}%";
+    public override string ToString() => $"{Date:O} - {Percent.ToString("P", CultureInfo.InvariantCulture)}";    
 }

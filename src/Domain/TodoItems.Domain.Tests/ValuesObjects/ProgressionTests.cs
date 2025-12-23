@@ -1,5 +1,6 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
+using System;
+using System.Globalization;
 using TodoItems.Domain.ValueObjects;
 using Xunit;
 
@@ -46,8 +47,9 @@ public class ProgressionTests
     public void ToString_Should_Return_O_Format_WithPercent()
     {
         var date = new DateTime(2025, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+        var percent = 12.34m;
         var progression = new Progression(date, 12.34m);
 
-        progression.ToString().Should().Be($"{date:O} - 12,34%");
+        progression.ToString().Should().Be($"{date:O} - {percent.ToString("P", CultureInfo.InvariantCulture)}");
     }
 }
