@@ -1,0 +1,30 @@
+name: TodoItems .NET CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        dotnet: [ '6.0.x', '7.0.x', '8.0.x' ]
+
+    name: NET ${{ matrix.dotnet }}
+
+    steps:  
+    - uses: actions/checkout@v3
+     
+    - name: Setup
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    - name: Restore 
+      run: dotnet restore
+       
+    - name: Build 
+      run: dotnet build Solution.sln --configuration Release --no-restore
+     
+    - name: Tests
+      run: dotnet test --configuration Release --no-build --no-restore

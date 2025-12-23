@@ -9,26 +9,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoItems.API", "UI\TodoIte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoItems.Consola", "UI\TodoItems.Consola\TodoItems.Consola.csproj", "{20A3CBF2-045A-9800-5930-AE5AC8DB2D9A}"
 EndProject
-
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{1D93E17D-CB27-4171-9421-61339E11F479}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoItems.Application", "Application\TodoItems.Application\TodoItems.Application.csproj", "{A5C4F93A-B7A5-7687-57FA-5E2E6C77DA12}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoItems.Application.Tests", "Application\TodoItems.Application.Tests\TodoItems.Application.Tests.csproj", "{3B9262BB-BB7F-32CE-866D-5445147A531B}"
 EndProject
-
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{DA50A62C-CBEC-494A-B36F-7D40C77BBDC7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoItems.Domain", "Domain\TodoItems.Domain\TodoItems.Domain.csproj", "{BFC6BA0C-176D-34DE-9995-DEC9563C7648}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoItems.Domain.Tests", "Domain\TodoItems.Domain.Tests\TodoItems.Domain.Tests.csproj", "{E17123B5-956C-B6B2-7583-8D9469D2DCA1}"
 EndProject
-
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{6AE00415-6C22-4D55-9AB3-AF832852C09D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoItems.Infrastructure", "Infrastructure\TodoItems.Infrastructure\TodoItems.Infrastructure.csproj", "{37A6DC05-BCC8-C111-A848-1FDBA34AD2FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoItems.Infrastructure.IntegrationTests", "Infrastructure\TodoItems.Infrastructure.Persistence.IntegrationTests\TodoItems.Infrastructure.IntegrationTests.csproj", "{A1DA07D6-8B51-AABD-E9F8-93E3861306BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".settings", ".settings", "{6BCCBC20-E06A-4EA7-A797-28EE22C0031E}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
