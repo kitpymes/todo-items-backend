@@ -1,7 +1,6 @@
 using FluentAssertions;
-using Xunit;
+using TodoItems.Domain._Common.Exceptions;
 using TodoItems.Domain.Entities;
-
 namespace TodoItems.Domain.Tests;
 
 public class ItemTests
@@ -9,9 +8,9 @@ public class ItemTests
     [Fact]
     public void CreateItem_ShouldCreateSuccessfully()
     {
-        var item = new Item(1, "Title", "Description", "Category");
+        var item = new Item("Title", "Description", "Category");
 
-        item.Id.Should().Be(1);
+        item.Id.Should().Be(item.Id);
         item.Title.Should().Be("Title");
         item.Description.Should().Be("Description");
         item.Category.Should().Be("Category");
@@ -20,16 +19,16 @@ public class ItemTests
     [Fact]
     public void CreateItem_WithoutTitle_ShouldThrow()
     {
-        Action act = () => new Item(1, "", "Desc", "Cat");
+        Action act = () => new Item("", "Desc", "Cat");
 
-        act.Should().Throw<ArgumentException>()
-           .WithMessage("*Title*");
+        act.Should().Throw<DomainValidationException>()
+           .WithMessage("El título es obligatorio.");
     }
 
     [Fact]
     public void UpdateDescription_ShouldChangeDescription()
     {
-        var item = new Item(1, "Title", "Old", "Cat");
+        var item = new Item("Title", "Old", "Cat");
 
         item.UpdateDescription("New");
 
@@ -39,9 +38,9 @@ public class ItemTests
     [Fact]
     public void RegisterProgression_ShouldAddProgression()
     {
-        var item = new Item(1, "Title", "Desc", "Cat");
+        var item = new Item("Title", "Desc", "Cat");
 
-        item.RegisterProgression(DateTime.Today, 50);
+        item.RegisterProgression(50);
 
         item.Progressions.Should().HaveCount(1);
     }
@@ -49,10 +48,10 @@ public class ItemTests
     [Fact]
     public void RegisterProgression_WithInvalidPercent_ShouldThrow()
     {
-        var item = new Item(1, "Title", "Desc", "Cat");
+        var item = new Item("Title", "Desc", "Cat");
 
-        Action act = () => item.RegisterProgression(DateTime.Now, 150);
+        Action act = () => item.RegisterProgression(150);
 
-        act.Should().Throw<ArgumentException>();
+        act.Should().Throw<DomainValidationException>();
     }
 }

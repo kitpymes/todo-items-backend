@@ -7,17 +7,17 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\Domain\TodoItems.Domain\TodoItems.Domain.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Commands\UpdateItem\" />
     <Folder Include="_Common\Behaviours\" />
-    <Folder Include="_Common\Events\" />
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="FluentValidation" Version="10.0.4" />
     <PackageReference Include="MediatR" Version="14.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\TodoItems.Domain\TodoItems.Domain.csproj" />
   </ItemGroup>
 
 </Project>

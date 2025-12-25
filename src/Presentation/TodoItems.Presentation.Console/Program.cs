@@ -1,5 +1,5 @@
-﻿using TodoItems.Application.UseCases;
-using TodoItems.Infrastructure.Persistence;
+﻿using TodoItems.Application.Item.UseCases;
+using TodoItems.Infrastructure.Persistence.Repositories;
 
 var repository = new InMemoryItemRepository();
 
@@ -10,17 +10,17 @@ var printItems = new PrintItemsUseCase(repository);
 var removeItem = new RemoveItemUseCase(repository);
 
 // Add
-addItem.Execute(1, "DDD Course", "Learn DDD properly", "Education");
+await addItem.Execute("DDD Course", "Learn DDD properly", "Education");
 
 // Update
-updateItem.Execute(1, "Learn DDD with real examples");
+await updateItem.Execute(new Guid(), "Learn DDD with real examples");
 
 // Progress
-registerProgression.Execute(1, DateTime.Now, 25);
-registerProgression.Execute(1, DateTime.Now.AddDays(1), 50);
+await registerProgression.Execute(Guid.NewGuid(), DateTime.Now, 25);
+await registerProgression.Execute(Guid.NewGuid(), DateTime.Now.AddDays(1), 50);
 
 // Print
-printItems.Execute();
+await printItems.Execute();
 
 // Remove
-removeItem.Execute(1);
+await removeItem.Execute(Guid.NewGuid());

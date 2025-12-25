@@ -1,12 +1,11 @@
-namespace TodoItems.Presentation.API.E2E.Tests;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TodoItems.Application.Events;
-using TodoItems.Infrastructure.Events;
+using System.Text.Json;
 using TodoItems.Infrastructure.Persistence;
+
+namespace TodoItems.Presentation.API.E2E.Tests;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
@@ -14,19 +13,21 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(services =>
         {
-            // Remover DbContext real
             var descriptor = services.SingleOrDefault(
                 d => d.ServiceType == typeof(DbContextOptions<ItemDbContext>));
 
             if (descriptor != null)
                 services.Remove(descriptor);
 
-            // Reemplazar por InMemory
             services.AddDbContext<ItemDbContext>(options =>
                 options.UseInMemoryDatabase("E2E_DB"));
 
-            // Dispatcher real
-            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
+            services.ConfigureHttpJsonOptions(options =>
+            {
+                options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.SerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                options.SerializerOptions.PropertyNameCaseInsensitive = true;
+            });
         });
     }
 }

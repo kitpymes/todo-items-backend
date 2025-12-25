@@ -1,8 +1,7 @@
 ﻿using FluentAssertions;
-using System;
 using System.Globalization;
-using TodoItems.Domain.ValueObjects;
-using Xunit;
+using TodoItems.Domain._Common.Exceptions;
+using TodoItems.Domain.Entities;
 
 namespace TodoItems.Domain.Tests.ValuesObjects;
 
@@ -26,8 +25,8 @@ public class ProgressionTests
         Action act = () => new Progression(DateTime.UtcNow, invalidPercent);
 
         act.Should()
-           .Throw<ArgumentException>()
-           .WithMessage("*Percent must be between 0 and 100*");
+           .Throw<DomainValidationException>()
+           .WithMessage("El Porcentaje debe estar entre 0 y 100.");
     }
 
     [Fact]
