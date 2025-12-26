@@ -1,0 +1,30 @@
+@host = http://localhost:5063
+
+### Get all items
+GET {{host}}/Item/GetAll
+Accept: application/json
+
+###
+
+### Add item (ejemplo)
+POST {{host}}/Item/Add
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Comprar leche",
+  "description": "Leche entera",
+  "category": "Compras"
+}
+
+###
+
+### Register progression (ejemplo)
+POST {{host}}/Item/RegisterProgress
+Content-Type: application/json
+Accept: application/json
+
+{
+  "itemId": 1,
+  "progress": 50
+}

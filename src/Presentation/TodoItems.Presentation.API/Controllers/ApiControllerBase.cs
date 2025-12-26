@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace TodoItems.Presentation.API.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
+[Route("api/[controller]/[action]")]
 public abstract class ApiControllerBase : ControllerBase
 {
 #nullable disable

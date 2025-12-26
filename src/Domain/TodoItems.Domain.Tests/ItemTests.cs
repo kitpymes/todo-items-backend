@@ -1,6 +1,8 @@
 using FluentAssertions;
 using TodoItems.Domain._Common.Exceptions;
-using TodoItems.Domain.Entities;
+using TodoItems.Domain.Aggregates.TodoListAggregate;
+using TodoItems.Domain.Aggregates.TodoListAggregate.ValeObjects;
+
 namespace TodoItems.Domain.Tests;
 
 public class ItemTests
@@ -8,18 +10,25 @@ public class ItemTests
     [Fact]
     public void CreateItem_ShouldCreateSuccessfully()
     {
-        var item = new Item("Title", "Description", "Category");
+        var id = new Random().Next();
+        var title = Guid.NewGuid().ToString();
+        var description = Guid.NewGuid().ToString();
+        var categoryName = Guid.NewGuid().ToString();
+        var category = new Category(categoryName);
 
-        item.Id.Should().Be(item.Id);
-        item.Title.Should().Be("Title");
-        item.Description.Should().Be("Description");
-        item.Category.Should().Be("Category");
+        var item = new TodoItem(id, title, description, category);
+
+        item.Id.Should().Be(id);
+        item.Title.Should().Be(title);
+        item.Description.Should().Be(description);
+        item.Category.Should().Be(category);
+        item.Category.Name.Should().Be(categoryName);
     }
 
     [Fact]
     public void CreateItem_WithoutTitle_ShouldThrow()
     {
-        Action act = () => new Item("", "Desc", "Cat");
+        Action act = () => new TodoItem(1, "", "Desc", new Category(Guid.NewGuid().ToString()));
 
         act.Should().Throw<DomainValidationException>()
            .WithMessage("El título es obligatorio.");
@@ -28,7 +37,7 @@ public class ItemTests
     [Fact]
     public void UpdateDescription_ShouldChangeDescription()
     {
-        var item = new Item("Title", "Old", "Cat");
+        var item = new TodoItem(1, "Title", "Old", new Category(Guid.NewGuid().ToString()));
 
         item.UpdateDescription("New");
 
@@ -38,19 +47,24 @@ public class ItemTests
     [Fact]
     public void RegisterProgression_ShouldAddProgression()
     {
-        var item = new Item("Title", "Desc", "Cat");
+        var item = new TodoItem(1, "", "Desc", new Category(Guid.NewGuid().ToString()));
+        var progession = new Progression(DateTime.UtcNow, 30);
 
-        item.RegisterProgression(50);
+        item.AddProgression(progession);
 
         item.Progressions.Should().HaveCount(1);
+        item.Progressions.Should().Contain(progession);
+        item.TotalProgress.Should().Be(30);
+        item.IsCompleted.Should().BeFalse();
     }
 
     [Fact]
     public void RegisterProgression_WithInvalidPercent_ShouldThrow()
     {
-        var item = new Item("Title", "Desc", "Cat");
+        var item = new TodoItem(1, "", "Desc", new Category(Guid.NewGuid().ToString()));
+        var progession = new Progression(DateTime.UtcNow, 130);
 
-        Action act = () => item.RegisterProgression(150);
+        Action act = () => item.AddProgression(progession);
 
         act.Should().Throw<DomainValidationException>();
     }

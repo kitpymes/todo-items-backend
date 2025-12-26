@@ -14,12 +14,12 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         builder.ConfigureServices(services =>
         {
             var descriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(DbContextOptions<ItemDbContext>));
+                d => d.ServiceType == typeof(DbContextOptions<TodoListDbContext>));
 
             if (descriptor != null)
                 services.Remove(descriptor);
 
-            services.AddDbContext<ItemDbContext>(options =>
+            services.AddDbContext<TodoListDbContext>(options =>
                 options.UseInMemoryDatabase("E2E_DB"));
 
             services.ConfigureHttpJsonOptions(options =>

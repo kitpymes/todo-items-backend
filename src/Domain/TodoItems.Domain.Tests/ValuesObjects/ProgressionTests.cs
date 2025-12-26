@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using System.Globalization;
 using TodoItems.Domain._Common.Exceptions;
-using TodoItems.Domain.Entities;
+using TodoItems.Domain.Aggregates.TodoListAggregate.ValeObjects;
 
 namespace TodoItems.Domain.Tests.ValuesObjects;
 

@@ -14,20 +14,6 @@ public abstract class EntityBase<TKey> : IEquatable<TKey>, IEntityBase
 
     public virtual TKey Id { get; protected set; }
 
-    #region DomainEvents
-
-    private readonly List<INotification> _domainEvents = [];
-
-    public IReadOnlyCollection<INotification> DomainEvents => _domainEvents.AsReadOnly();
-
-    public void AddDomainEvent(INotification domainEvent) => _domainEvents.Add(domainEvent);
-
-    public void RemoveDomainEvent(INotification domainEvent) => _domainEvents.Remove(domainEvent);
-
-    public void ClearDomainEvents() => _domainEvents.Clear();
-
-    #endregion DomainEvents
-
     #region Equals
 
     public static bool operator ==(EntityBase<TKey> left, EntityBase<TKey> right)

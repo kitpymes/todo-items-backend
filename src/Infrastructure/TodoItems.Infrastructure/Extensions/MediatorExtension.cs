@@ -7,21 +7,23 @@ namespace TodoItems.Infrastructure.Extensions;
 
 static class MediatorExtension
 {
-    public static async Task DispatchDomainEventsAsync(this IMediator mediator, ItemDbContext context)
+    public static async Task DispatchDomainEventsAsync(this IMediator mediator, TodoListDbContext context)
     {
-        var domainEntities = context.ChangeTracker.Entries<IEntityBase>()
-            .Where(x => x.Entity is not INotMapped && x.Entity.DomainEvents.Count > 0);
+        var entitiesWithEvents = context.ChangeTracker.Entries<IAggregateRoot>()
+           .Where(x => x.Entity is not INotMapped && x.Entity.DomainEvents.Count > 0)
+           .Select(e => e.Entity)
+           .ToList();
 
-        if (domainEntities.Any())
+        foreach (var entity in entitiesWithEvents)
         {
-            var domainEvents = domainEntities.SelectMany(x => x.Entity.DomainEvents).ToList();
+            var events = entity.DomainEvents.ToList();
 
-            foreach (var domainEvent in domainEvents)
+            entity.ClearDomainEvents();
+
+            foreach (var domainEvent in events)
             {
-                await mediator.Publish(domainEvent);
+                await mediator.Publish(domainEvent, CancellationToken.None);
             }
-
-            domainEntities.ToList().ForEach(entity => entity.Entity.ClearDomainEvents());
         }
     }
 }
