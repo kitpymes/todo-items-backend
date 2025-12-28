@@ -6,10 +6,10 @@ using TodoItems.Domain.Aggregates.TodoListAggregate.ValeObjects;
 
 namespace TodoItems.Application.Tests.Item;
 
-public class AddItemUseCaseTests
+public class RegisterProgressItemUseCaseTests
 {
     [Fact]
-    public async Task Execute_ShouldAddItem()
+    public async Task Execute_ShouldRegisterProgression()
     {
         // Arrange
         var itemId = new Random().Next(1, 1000);
@@ -23,25 +23,16 @@ public class AddItemUseCaseTests
         repoMock.Setup(r => r.GetTodoListByIdAsync(todoList.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(todoList);
 
-        repoMock.Setup(r => r.GetAllCategoriesAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(todoList.Items
-            .Select(x => x.Category.Name)
-            .Distinct()
-            .ToList()
-            .AsReadOnly());
-
-        repoMock.Setup(r => r.GetNextItemIdAsync()).ReturnsAsync(newItemId); 
-
-        var useCase = new AddItemCommandHandler(repoMock.Object);
-
-        var request = new AddItemCommand(todoList.Id, Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), category.Name);
+        var useCase = new RegisterProgressItemCommandHandler(repoMock.Object);
 
         // Act
-        var result = await useCase.Handle(request, CancellationToken.None);
+        await useCase.Handle(new RegisterProgressItemCommand(todoList.Id, itemId, 25), CancellationToken.None);
 
         // Assert
         repoMock.Verify(r => r.SaveAsync(
-            It.Is<Domain.Aggregates.TodoListAggregate.TodoList>(tl => tl.Items.Any(i => i.Id == newItemId)),
+            It.Is<Domain.Aggregates.TodoListAggregate.TodoList>(tl => tl.Items
+                .Any(i => i.Id == itemId && i.Progressions
+                    .Any(p => p.Percent == 25))), 
             It.IsAny<CancellationToken>()), Times.Once);
     }
 }

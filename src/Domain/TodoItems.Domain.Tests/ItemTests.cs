@@ -47,7 +47,7 @@ public class ItemTests
     [Fact]
     public void RegisterProgression_ShouldAddProgression()
     {
-        var item = new TodoItem(1, "", "Desc", new Category(Guid.NewGuid().ToString()));
+        var item = new TodoItem(1, "Title", "Desc", new Category(Guid.NewGuid().ToString()));
         var progession = new Progression(DateTime.UtcNow, 30);
 
         item.AddProgression(progession);
@@ -61,10 +61,9 @@ public class ItemTests
     [Fact]
     public void RegisterProgression_WithInvalidPercent_ShouldThrow()
     {
-        var item = new TodoItem(1, "", "Desc", new Category(Guid.NewGuid().ToString()));
-        var progession = new Progression(DateTime.UtcNow, 130);
+        var item = new TodoItem(1, "Title", "Desc", new Category(Guid.NewGuid().ToString()));
 
-        Action act = () => item.AddProgression(progession);
+        Action act = () => item.AddProgression(new Progression(DateTime.UtcNow, 130));
 
         act.Should().Throw<DomainValidationException>();
     }

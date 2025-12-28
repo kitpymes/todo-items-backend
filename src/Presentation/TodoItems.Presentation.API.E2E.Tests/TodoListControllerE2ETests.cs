@@ -53,6 +53,8 @@ public class TodoListControllerE2ETests(CustomWebApplicationFactory factory) : I
         Assert.True(response.IsSuccessStatusCode, $"Esperaba: {HttpStatusCode.OK} | Devolvió: {response.StatusCode}");
     }
 
+    #region GetItem
+
     [Fact]
     public async Task GetAllItems_ShouldReturnOk()
     {
@@ -105,6 +107,8 @@ public class TodoListControllerE2ETests(CustomWebApplicationFactory factory) : I
         Assert.NotEmpty(result.Message!);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
+
+    #endregion GetItem
 
     #region AddItem
 
