@@ -50,7 +50,7 @@ El proyecto utiliza **GitHub Actions** para garantizar la calidad del código me
 *   **MediatR:** Implementación de CQRS y mediación de eventos.
 *   **EF Core + SQLite:** ORM y base de datos relacional ligera y portátil.
 *   **FluentValidation:** Validación de lógica de entrada en la capa de aplicación.
-*   **GitHub Actions:**Automatización de Build y Testing (CI).
+*   **GitHub Actions:** Automatización de Build y Testing (CI).
 *   **AutoMapper:** Mapeo de objetos entre capas.
 *   **Swagger / OpenAPI:** Documentación y exploración de la API.
 *   **xUnit + FluentAssertions:** Framework de pruebas y aserciones de lenguaje natural.
