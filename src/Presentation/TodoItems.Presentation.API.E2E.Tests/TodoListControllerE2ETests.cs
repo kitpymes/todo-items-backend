@@ -284,10 +284,11 @@ public class TodoListControllerE2ETests(CustomWebApplicationFactory factory) : I
 
         var payload = new
         {
-            Description = "Nueva Descripción Actualizada"
+            Title = "Nueva Título Actualizado",
+            Description = ""
         };
 
-        var requestUri = $"api/v1/todo-list/{todoList.Id}/item/{itemId}/description";
+        var requestUri = $"api/v1/todo-list/{todoList.Id}/item/{itemId}";
 
         // Act
         var response = await _client.PutAsJsonAsync(requestUri, payload);
@@ -303,7 +304,7 @@ public class TodoListControllerE2ETests(CustomWebApplicationFactory factory) : I
         var itemInDb = context1.TodoLists.SelectMany(l => l.Items).FirstOrDefault(i => i.Id == itemId);
 
         Assert.NotNull(itemInDb);
-        Assert.Equal("Nueva Descripción Actualizada", itemInDb.Description);
+        Assert.Equal("Nueva Título Actualizado", itemInDb.Title);
     }
 
     [Fact]
@@ -323,10 +324,11 @@ public class TodoListControllerE2ETests(CustomWebApplicationFactory factory) : I
 
         var payload = new
         {
+            Title = "",
             Description = "Nueva Descripción Actualizada"
         };
 
-        var requestUri = $"api/v1/todo-list/{Guid.NewGuid()}/item/{itemId}/description";
+        var requestUri = $"api/v1/todo-list/{Guid.NewGuid()}/item/{itemId}";
 
         // Act
         var response = await _client.PutAsJsonAsync(requestUri, payload);
@@ -336,38 +338,7 @@ public class TodoListControllerE2ETests(CustomWebApplicationFactory factory) : I
         Assert.False(result.IsSuccess);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData(null)] 
-    public async Task UpdateItem_InvalidModel_ShouldReturnBadRequest(string? description)
-    {
-        // Arrange
-        using var scope = factory.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<TodoListDbContext>();
-        var todoList = new TodoList(Guid.NewGuid().ToString());
-        var category = new Category(Guid.NewGuid().ToString());
-        var itemId = new Random().Next();
-        todoList.AddItem(itemId, Guid.NewGuid().ToString(), category, Guid.NewGuid().ToString());
-        context.TodoLists.Add(todoList);
-        await context.SaveChangesAsync();
-
-        var payload = new
-        {
-            Description = description
-        };
-        var requestUri = $"api/v1/todo-list/{todoList.Id}/item/{itemId}/description";
-
-        // Act
-        var response = await _client.PutAsJsonAsync(requestUri, payload);
-        var result = await response.Content.ToAppResult();
-
-        // Assert
-        Assert.False(result.IsSuccess);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-    }
-
+  
     #endregion
 
     #region DeleteItem
@@ -425,6 +396,7 @@ public class TodoListControllerE2ETests(CustomWebApplicationFactory factory) : I
 
         var payload = new
         {
+            Date = DateTime.UtcNow,
             Percent = 50        
         };
 

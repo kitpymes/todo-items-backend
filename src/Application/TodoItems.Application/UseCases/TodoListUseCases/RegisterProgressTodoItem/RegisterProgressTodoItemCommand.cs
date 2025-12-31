@@ -5,7 +5,7 @@ using TodoItems.Domain.Aggregates.TodoListAggregate;
 
 namespace TodoItems.Application.UseCases.TodoListUseCases.RegisterProgressTodoItem;
 
-public record RegisterProgressTodoItemCommand(Guid TodoListId, int ItemId, decimal Percent, DateTime? Date = null) : IRequest<IAppResult>;
+public record RegisterProgressTodoItemCommand(Guid TodoListId, int ItemId, DateTime Date, decimal Percent) : IRequest<IAppResult>;
 
 public class RegisterProgressTodoItemCommandHandler(ITodoListRepository repository) : IRequestHandler<RegisterProgressTodoItemCommand, IAppResult>
 {
@@ -18,9 +18,7 @@ public class RegisterProgressTodoItemCommandHandler(ITodoListRepository reposito
         if (todoList is null)
             throw new AppValidationsException($"La lista de tareas con Id {request.TodoListId} no fue encontrada.");
 
-        var registrationDate = request.Date ?? DateTime.UtcNow;
-
-        todoList.RegisterItemProgression(request.ItemId, registrationDate, request.Percent);
+        todoList.RegisterItemProgression(request.ItemId, request.Date, request.Percent);
 
         await _repository.SaveAsync(todoList, cancellationToken);
 

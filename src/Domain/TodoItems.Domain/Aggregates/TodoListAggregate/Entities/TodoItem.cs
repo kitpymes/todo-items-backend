@@ -23,9 +23,9 @@ public class TodoItem : EntityBaseInt
             throw new DomainValidationException("El Id debe ser un número positivo mayor que cero.");
 
         UpdateTitle(title);
+        UpdateDescription(description);
 
         Category = category;
-        Description = description;
     }
 
     internal void UpdateTitle(string title)
@@ -39,10 +39,10 @@ public class TodoItem : EntityBaseInt
         Title = title;
     }
 
-    internal void UpdateDescription(string description)
+    internal void UpdateDescription(string? description)
     {
         if (string.IsNullOrWhiteSpace(description))
-            throw new DomainValidationException("La descripción es obligatoria.");
+            return;
 
         if (description == Description)
             return;

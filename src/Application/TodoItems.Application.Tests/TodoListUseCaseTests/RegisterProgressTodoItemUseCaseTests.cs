@@ -25,7 +25,7 @@ public class RegisterProgressTodoItemUseCaseTests
         var useCase = new RegisterProgressTodoItemCommandHandler(repoMock.Object);
 
         // Act
-        await useCase.Handle(new RegisterProgressTodoItemCommand(todoList.Id, itemId, 25), CancellationToken.None);
+        await useCase.Handle(new RegisterProgressTodoItemCommand(todoList.Id, itemId, DateTime.Now, 25), CancellationToken.None);
 
         // Assert
         repoMock.Verify(r => r.SaveAsync(

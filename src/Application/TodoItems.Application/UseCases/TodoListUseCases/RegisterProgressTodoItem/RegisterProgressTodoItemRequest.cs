@@ -1,4 +1,4 @@
 ﻿namespace TodoItems.Application.UseCases.TodoListUseCases.RegisterProgressTodoItem
 {
-    public record RegisterProgressTodoItemRequest(decimal Percent);
+    public record RegisterProgressTodoItemRequest(DateTime Date, decimal Percent);
 }

@@ -24,9 +24,8 @@ public class TodoList : AggregateRoot, ITodoList
 
     public TodoList(string title, string? description = null)
     {
-        UpdateTitle(title);
-
-        Description = description;
+        UpdateTitle(title); 
+        UpdateDescription(description);
     }
 
     public void UpdateTitle(string title)
@@ -42,12 +41,12 @@ public class TodoList : AggregateRoot, ITodoList
         _logger.LogInformation($"Título de la lista actualizado a '{Title}'.");
     }
 
-    public void UpdateDescription(string description)
+    public void UpdateDescription(string? description)
     {
         if (string.IsNullOrWhiteSpace(description))
-            throw new DomainValidationException("La descripción es obligatoria.");
+            return;
 
-        if (description == Description)
+        if ( description == Description)
             return;
 
         Description = description;

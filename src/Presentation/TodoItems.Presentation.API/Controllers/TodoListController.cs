@@ -42,28 +42,16 @@ public class TodoListController : ApiControllerBase
         => await Mediator.Send(new CreateTodoListCommand(request.Title, request.Description));
 
     /// <summary>
-    /// Actualiza el título de un proyecto existente.
+    /// Actualiza un proyecto existente.
     /// </summary>
     /// <param name="todoListId">ID del proyecto.</param>
     /// <param name="request">Contenido actualizado.</param>
     /// <response code="200">Cambios guardados correctamente.</response>
     /// <response code="400">Los datos del request son incorrectos.</response>
-    [HttpPut("{todoListId}/title")]
+    [HttpPut("{todoListId}")]
     [ProducesResponseType(typeof(IAppResultError), StatusCodes.Status400BadRequest)]
-    public async Task<IAppResult> UpdateTodoListTitle(Guid todoListId, [FromBody] UpdateTodoListTitleRequest request)
-        => await Mediator.Send(new UpdateTodoListTitleCommand(todoListId, request.Title));
-
-    /// <summary>
-    /// Actualiza la descripción de un proyecto existente.
-    /// </summary>
-    /// <param name="todoListId">ID del proyecto.</param>
-    /// <param name="request">Contenido actualizado.</param>
-    /// <response code="200">Cambios guardados correctamente.</response>
-    /// <response code="400">Los datos del request son incorrectos.</response>
-    [HttpPut("{todoListId}/description")]
-    [ProducesResponseType(typeof(IAppResultError), StatusCodes.Status400BadRequest)]
-    public async Task<IAppResult> UpdateTodoListDescription(Guid todoListId, [FromBody] UpdateTodoListDescriptionRequest request)
-        => await Mediator.Send(new UpdateTodoListDescriptionCommand(todoListId, request.Description));
+    public async Task<IAppResult> UpdateTodoList(Guid todoListId, [FromBody] UpdateTodoListRequest request)
+        => await Mediator.Send(new UpdateTodoListCommand(todoListId, request.Title, request.Description));
 
     /// <summary>
     /// Lista todas las categorías disponibles para clasificar tareas.
@@ -106,30 +94,17 @@ public class TodoListController : ApiControllerBase
         => await Mediator.Send(new CreateTodoItemCommand(todoListId, request.Title, request.Category, request.Description));
 
     /// <summary>
-    /// Actualiza el título de una tarea existente.
+    /// Actualiza una tarea existente.
     /// </summary>
     /// <param name="todoListId">ID del proyecto.</param>
     /// <param name="itemId">ID numérico de la tarea a modificar.</param>
     /// <param name="request">Contenido actualizado.</param>
     /// <response code="200">Cambios guardados correctamente.</response>
     /// <response code="400">El ítem no pertenece a la lista indicada o los datos son incorrectos.</response>
-    [HttpPut("{todoListId}/item/{itemId}/title")]
+    [HttpPut("{todoListId}/item/{itemId}")]
     [ProducesResponseType(typeof(IAppResultError), StatusCodes.Status400BadRequest)]
-    public async Task<IAppResult> UpdateTodoItemTitle(Guid todoListId, int itemId, [FromBody] UpdateTodoItemTitleRequest request)
-        => await Mediator.Send(new UpdateTodoItemTitleCommand(todoListId, itemId, request.Title));
-
-    /// <summary>
-    /// Actualiza la descripción de una tarea existente.
-    /// </summary>
-    /// <param name="todoListId">ID del proyecto.</param>
-    /// <param name="itemId">ID numérico de la tarea a modificar.</param>
-    /// <param name="request">Contenido actualizado.</param>
-    /// <response code="200">Cambios guardados correctamente.</response>
-    /// <response code="400">El ítem no pertenece a la lista indicada o los datos son incorrectos.</response>
-    [HttpPut("{todoListId}/item/{itemId}/description")]
-    [ProducesResponseType(typeof(IAppResultError), StatusCodes.Status400BadRequest)]
-    public async Task<IAppResult> UpdateTodoItemDescription(Guid todoListId, int itemId, [FromBody] UpdateTodoItemDescriptionRequest request)
-        => await Mediator.Send(new UpdateTodoItemDescriptionCommand(todoListId, itemId, request.Description));
+    public async Task<IAppResult> UpdateTodoItem(Guid todoListId, int itemId, [FromBody] UpdateTodoItemRequest request)
+        => await Mediator.Send(new UpdateTodoItemCommand(todoListId, itemId, request.Title, request.Description));
 
     /// <summary>
     /// Elimina de forma permanente una tarea.
@@ -158,5 +133,5 @@ public class TodoListController : ApiControllerBase
     [Produces("application/json")]
     [ProducesResponseType(typeof(IAppResultError), StatusCodes.Status400BadRequest)]
     public async Task<IAppResult> RegisterProgressTodoItem(Guid todoListId, int itemId, [FromBody] RegisterProgressTodoItemRequest request)
-        => await Mediator.Send(new RegisterProgressTodoItemCommand(todoListId, itemId, request.Percent));
+        => await Mediator.Send(new RegisterProgressTodoItemCommand(todoListId, itemId, request.Date, request.Percent));
 }

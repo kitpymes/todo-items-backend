@@ -5,13 +5,13 @@ using TodoItems.Domain.Aggregates.TodoListAggregate;
 
 namespace TodoItems.Application.UseCases.TodoListUseCases.UpdateTodoItem;
 
-public record UpdateTodoItemTitleCommand(Guid TodoListId, int ItemId, string Title) : IRequest<IAppResult>;
+public record UpdateTodoItemCommand(Guid TodoListId, int ItemId, string Title, string? Description) : IRequest<IAppResult>;
 
-public class UpdateTodoItemTitleCommandHandler(ITodoListRepository repository) : IRequestHandler<UpdateTodoItemTitleCommand, IAppResult>
+public class UpdateTodoItemCommandHandler(ITodoListRepository repository) : IRequestHandler<UpdateTodoItemCommand, IAppResult>
 {
     private readonly ITodoListRepository _repository = repository;
 
-    public async Task<IAppResult> Handle(UpdateTodoItemTitleCommand request, CancellationToken cancellationToken)
+    public async Task<IAppResult> Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
     {
         var todoList = await _repository.GetTodoListByIdAsync(request.TodoListId, cancellationToken);
 
@@ -19,6 +19,7 @@ public class UpdateTodoItemTitleCommandHandler(ITodoListRepository repository) :
             throw new AppValidationsException($"La lista de tareas con Id {request.TodoListId} no fue encontrada.");
 
         todoList.UpdateItemTitle(request.ItemId, request.Title);
+        todoList.UpdateItemDescription(request.ItemId, request.Description);
 
         await _repository.SaveAsync(todoList, cancellationToken);
 

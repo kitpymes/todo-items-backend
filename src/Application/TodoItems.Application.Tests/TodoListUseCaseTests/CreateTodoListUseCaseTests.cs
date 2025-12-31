@@ -1,7 +1,6 @@
 ﻿using Moq;
 using TodoItems.Application.UseCases.TodoListUseCases.CreateTodoList;
 using TodoItems.Domain.Aggregates.TodoListAggregate;
-using TodoItems.Domain.Aggregates.TodoListAggregate.ValeObjects;
 
 namespace TodoItems.Application.Tests.TodoListUseCaseTests;
 

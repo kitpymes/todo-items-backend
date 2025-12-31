@@ -23,9 +23,9 @@ public class UpdateTodoItemUseCaseTests
         repoMock.Setup(r => r.GetTodoListByIdAsync(todoList.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(todoList);
 
-        var useCase = new UpdateTodoItemTitleCommandHandler(repoMock.Object);
+        var useCase = new UpdateTodoItemCommandHandler(repoMock.Object);
 
-        var request = new UpdateTodoItemTitleCommand(todoList.Id, itemId, newTitle);
+        var request = new UpdateTodoItemCommand(todoList.Id, itemId, newTitle, null);
 
         // Act
         var result = await useCase.Handle(request, CancellationToken.None);
@@ -52,9 +52,9 @@ public class UpdateTodoItemUseCaseTests
         repoMock.Setup(r => r.GetTodoListByIdAsync(todoList.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(todoList);
 
-        var useCase = new UpdateTodoItemDescriptionCommandHandler(repoMock.Object);
+        var useCase = new UpdateTodoItemCommandHandler(repoMock.Object);
 
-        var request = new UpdateTodoItemDescriptionCommand(todoList.Id, itemId, newDescription);
+        var request = new UpdateTodoItemCommand(todoList.Id, itemId, Guid.NewGuid().ToString(), newDescription);
 
         // Act
         var result = await useCase.Handle(request, CancellationToken.None);

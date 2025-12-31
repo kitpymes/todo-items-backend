@@ -2,9 +2,9 @@
 
 namespace TodoItems.Application.UseCases.TodoListUseCases.UpdateTodoItem;
 
-public class UpdateTodoItemDescriptionCommandValidator : AbstractValidator<UpdateTodoItemDescriptionCommand>
+public class UpdateTodoItemCommandValidator : AbstractValidator<UpdateTodoItemCommand>
 {
-    public UpdateTodoItemDescriptionCommandValidator()
+    public UpdateTodoItemCommandValidator()
     {
         RuleFor(x => x.TodoListId)
            .NotEmpty().WithMessage("El Id de la lista de tareas es obligatorio.");
@@ -12,7 +12,6 @@ public class UpdateTodoItemDescriptionCommandValidator : AbstractValidator<Updat
         RuleFor(x => x.ItemId)
             .GreaterThan(0).WithMessage("El Id del ítem debe ser mayor que cero.");
 
-        RuleFor(x => x.Description)
-            .NotEmpty().WithMessage("La descripción es obligatoria.");
+        RuleFor(x => x.Title).NotEmpty().WithMessage("La título es obligatorio.");
     }
 }
