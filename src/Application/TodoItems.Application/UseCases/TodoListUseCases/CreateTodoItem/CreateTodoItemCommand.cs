@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using TodoItems.Application._Common.Exceptions;
-using TodoItems.Application.UseCases.TodoListUseCases._Common.DTOs;
 using TodoItems.Domain._Common.AppResults;
 using TodoItems.Domain.Aggregates.TodoListAggregate;
 using TodoItems.Domain.Aggregates.TodoListAggregate.ValeObjects;
